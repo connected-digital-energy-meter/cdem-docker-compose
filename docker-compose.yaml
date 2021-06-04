@@ -13,5 +13,18 @@ services:
     networks:
       - backend
 
+  nodered:
+    build: ./nodered
+    restart: unless-stopped
+    ports:
+      - "1880:1880"
+    networks:
+      - backend
+    volumes:
+      - nodered-storage:/data
+      
+volumes:
+  nodered-storage:
+
 networks:
   backend:
