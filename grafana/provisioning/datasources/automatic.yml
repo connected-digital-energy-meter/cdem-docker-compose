@@ -13,7 +13,7 @@ datasources:
   access: proxy
   url: http://influxdb:8086
   password:
-  user: grafana
+  user:
   database: cdem
   basicAuth: false
   isDefault: true

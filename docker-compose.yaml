@@ -39,11 +39,7 @@ services:
     volumes:
       - influxdb:/var/lib/influxdb
     environment:
-      INFLUXDB_DB: ${INFLUXDB_DB}
-      INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
-      INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
-      INFLUXDB_USER: ${INFLUXDB_USER}
-      INFLUXDB_USER_PASSWORD: ${INFLUXDB_USER_PASSWORD}
+      INFLUXDB_DB: cdem
 
   # This is the Grafana dashboard service
   grafana:
