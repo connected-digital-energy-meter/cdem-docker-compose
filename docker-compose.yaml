@@ -22,6 +22,9 @@ services:
     restart: unless-stopped
     ports:
       - "1880:1880"
+    depends_on:
+      - influxdb
+      - mqtt
     networks:
       - backend
     volumes:
@@ -42,9 +45,25 @@ services:
       INFLUXDB_USER: ${INFLUXDB_USER}
       INFLUXDB_USER_PASSWORD: ${INFLUXDB_USER_PASSWORD}
 
+  # This is the Grafana dashboard service
+  grafana:
+    image: grafana/grafana:7.5.7
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - influxdb
+    networks:
+      - backend
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+
 volumes:
   nodered-storage:
   influxdb:
+  grafana-storage:
 
 networks:
   backend:

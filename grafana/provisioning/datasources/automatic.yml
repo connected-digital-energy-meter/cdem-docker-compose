@@ -1,0 +1,23 @@
+# Source: https://community.grafana.com/t/data-source-on-startup/8618/2
+
+apiVersion: 1
+
+deleteDatasources:
+  - name: CDEM
+    orgId: 1
+
+datasources:
+- name: CDEM
+  type: influxdb
+  typeName: InfluxDB
+  access: proxy
+  url: http://influxdb:8086
+  password:
+  user: grafana
+  database: cdem
+  basicAuth: false
+  isDefault: true
+  jsonData:
+     httpMode: GET
+  version: 1
+  editable: true
