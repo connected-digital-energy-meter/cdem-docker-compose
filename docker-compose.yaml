@@ -1,9 +1,12 @@
 version: "3.7"
 
+# All the environment variables are bundled in .env which is automatically included when running this with docker-compose. This has the big advantage that you only need to specify the information in 1 file and have only a single place of truth.
+# The information is then passed to the correct service in this docker-compose file.
+
 services:
 
   # This is the Mosquitto MQTT broker
-  mosquitto:
+  mqtt:
     image: eclipse-mosquitto:2.0.10
     restart: unless-stopped
     volumes:
@@ -13,6 +16,7 @@ services:
     networks:
       - backend
 
+  # This is the NodeRED instance
   nodered:
     build: ./nodered
     restart: unless-stopped
@@ -22,9 +26,25 @@ services:
       - backend
     volumes:
       - nodered-storage:/data
-      
+
+  # This is the InfluxDB time series database
+  influxdb:
+    image: influxdb:1.8.4
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - influxdb:/var/lib/influxdb
+    environment:
+      INFLUXDB_DB: ${INFLUXDB_DB}
+      INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
+      INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
+      INFLUXDB_USER: ${INFLUXDB_USER}
+      INFLUXDB_USER_PASSWORD: ${INFLUXDB_USER_PASSWORD}
+
 volumes:
   nodered-storage:
+  influxdb:
 
 networks:
   backend:
